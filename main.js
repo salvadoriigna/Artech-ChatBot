@@ -18,7 +18,7 @@ $(function () {
         try {
             const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDgqC5W--Mx4CUpieHj5r2hb3vwGn9V9us", {
                 method: "POST",
-                headers: { 
+                headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
@@ -78,3 +78,60 @@ $(function () {
         }
     });
 });
+
+// Tu código JavaScript aquí
+const dropZone = document.getElementById('drop-zone');
+const fileList = document.getElementById('file-list');
+
+// Evitar que el navegador abra el archivo al soltarlo
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+});
+
+function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+// Resaltar la zona cuando se arrastra sobre ella
+['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, highlight, false);
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, unhighlight, false);
+});
+
+function highlight() {
+    dropZone.classList.add('highlight');
+}
+
+function unhighlight() {
+    dropZone.classList.remove('highlight');
+}
+
+// Manejar archivos soltados
+dropZone.addEventListener('drop', handleDrop, false);
+
+function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    handleFiles(files);
+}
+
+function handleFiles(files) {
+    fileList.innerHTML = '';
+    [...files].forEach(file => {
+        const fileInfo = document.createElement('div');
+        fileInfo.textContent = `📄 ${file.name} (${formatBytes(file.size)})`;
+        fileList.appendChild(fileInfo);
+    });
+}
+
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}

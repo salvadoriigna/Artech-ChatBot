@@ -12,7 +12,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background:#999783;
+  background: #999783;
 }
 
 .chat {
@@ -83,7 +83,6 @@ body {
   letter-spacing: 0.3px;
   margin: 0 0 0 8px;
   margin-left: 32%;
-  margin-top: 1%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -92,16 +91,16 @@ body {
 
 
 .user-bar .status {
-  display: block;
+  display: flex;
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 0;
   width: auto;
-  padding-left: 32%;
+  justify-content: center;
 }
 
 .conversation {
-  height: calc(100% - 12px);
+  height: 93%;
   position: relative;
   background: #999783 url("https://muhilanorg.online/insta/1.jpg") repeat;
   z-index: 0;
@@ -123,7 +122,6 @@ body {
 }
 
 .conversation .conversation-container {
-  height: 100%;
   box-shadow: inset 0 10px 10px -10px #000000;
   padding: 0 16px;
 }
@@ -234,7 +232,8 @@ body {
 
 .message.sent:after {
   border-width: 0px 0 10px 10px;
-  border-color: transparent transparent transparent #a9c6cf;;
+  border-color: transparent transparent transparent #a9c6cf;
+  ;
   top: 0;
   right: -10px;
 }
@@ -242,13 +241,12 @@ body {
 .conversation-compose {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
   overflow: hidden;
   height: 50px;
-  width: 96%;
   padding-left: 4%;
   padding-bottom: 1%;
   z-index: 2;
+  margin-top: 3%;
 }
 
 .conversation-compose div,
@@ -322,7 +320,7 @@ body {
 
 .conversation-compose .send .circle i {
   font-size: 24px;
- 
+
 }
 
 .marvel-device .status-bar {
@@ -337,12 +335,8 @@ body {
   bottom: 0;
 }
 
-.conversation {
-  height: calc(100vh - 55px);
-}
-
 .conversation .conversation-container {
-  height: calc(100vh - 120px);
+  height: 79%;
 }
 
 .back {
@@ -355,4 +349,52 @@ body {
   float: right;
 }
 
+#drop-zone {
+  width: 300px;
+  height: 200px;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  text-align: center;
+  padding: 20px;
+  margin: 20px auto;
+}
 
+#drop-zone.highlight {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+#file-list {
+  margin: 20px auto;
+  max-width: 300px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e7e7e7;
+  background-color: #f3f3f3;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: #666;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #ddd;
+}
+
+li a.active {
+  color: white;
+  background-color: #425264;
+}
