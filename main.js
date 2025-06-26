@@ -79,11 +79,13 @@ $(function () {
     });
 });
 
-// Tu código JavaScript aquí
-const dropZone = document.getElementById('drop-zone');
-const fileList = document.getElementById('file-list');
 
-// Evitar que el navegador abra el archivo al soltarlo
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+const filesContainer = document.getElementById('files-container');
+let files = [];
+
+// Manejar eventos de arrastrar y soltar
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropZone.addEventListener(eventName, preventDefaults, false);
 });
@@ -93,7 +95,6 @@ function preventDefaults(e) {
     e.stopPropagation();
 }
 
-// Resaltar la zona cuando se arrastra sobre ella
 ['dragenter', 'dragover'].forEach(eventName => {
     dropZone.addEventListener(eventName, highlight, false);
 });
@@ -115,19 +116,61 @@ dropZone.addEventListener('drop', handleDrop, false);
 
 function handleDrop(e) {
     const dt = e.dataTransfer;
-    const files = dt.files;
-    handleFiles(files);
+    handleFiles(dt.files);
 }
 
-function handleFiles(files) {
-    fileList.innerHTML = '';
-    [...files].forEach(file => {
-        const fileInfo = document.createElement('div');
-        fileInfo.textContent = `📄 ${file.name} (${formatBytes(file.size)})`;
-        fileList.appendChild(fileInfo);
+// Manejar archivos seleccionados
+fileInput.addEventListener('change', function () {
+    handleFiles(this.files);
+});
+
+// Procesar archivos
+function handleFiles(newFiles) {
+    files = [...files, ...newFiles];
+    updateFileList();
+}
+
+// Actualizar la lista de archivos
+function updateFileList() {
+    filesContainer.innerHTML = '';
+
+    if (files.length === 0) {
+        filesContainer.innerHTML = '<p>No hay archivos seleccionados</p>';
+        return;
+    }
+
+    files.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+
+        // Obtener icono según el tipo de archivo
+        const fileIcon = getFileIcon(file);
+
+        fileItem.innerHTML = `
+                    <div class="file-info">
+                        <div class="file-icon">${fileIcon}</div>
+                        <div>
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${formatBytes(file.size)}</div>
+                            <div class="upload-progress">
+                                <div class="progress-bar" id="progress-${index}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="removeFile(${index})">×</button>
+                `;
+
+        filesContainer.appendChild(fileItem);
     });
 }
 
+// Función para eliminar un archivo de la lista
+function removeFile(index) {
+    files.splice(index, 1);
+    updateFileList();
+}
+
+// Función para formatear el tamaño del archivo
 function formatBytes(bytes) {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -135,3 +178,68 @@ function formatBytes(bytes) {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
+
+// Función para obtener icono según el tipo de archivo
+function getFileIcon(file) {
+    const type = file.type.split('/')[0];
+    const extension = file.name.split('.').pop().toLowerCase();
+
+    const icons = {
+        image: '🖼️',
+        audio: '🎵',
+        video: '🎬',
+        text: '📄',
+        application: '📁'
+    };
+
+    // Iconos específicos para extensiones conocidas
+    const extensionIcons = {
+        pdf: '📕',
+        doc: '📘',
+        docx: '📘',
+        xls: '📊',
+        xlsx: '📊',
+        ppt: '📑',
+        pptx: '📑',
+        zip: '🗜️',
+        rar: '🗜️',
+        exe: '⚙️',
+        mp3: '🎵',
+        wav: '🎵',
+        mp4: '🎬',
+        avi: '🎬',
+        mov: '🎬',
+        jpg: '🖼️',
+        jpeg: '🖼️',
+        png: '🖼️',
+        gif: '🖼️',
+        txt: '📝',
+        csv: '📊',
+        js: '📜',
+        html: '🌐',
+        css: '🎨'
+    };
+
+    return extensionIcons[extension] || icons[type] || '📁';
+}
+
+// Función para simular la subida de archivos (puedes reemplazar con tu lógica real)
+function uploadFiles() {
+    files.forEach((file, index) => {
+        // Simular progreso de subida
+        let progress = 0;
+        const progressBar = document.getElementById(`progress-${index}`);
+
+        const interval = setInterval(() => {
+            progress += Math.random() * 10;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+            }
+            progressBar.style.width = `${progress}%`;
+        }, 200);
+    });
+}
+
+// Inicializar lista vacía
+updateFileList();
