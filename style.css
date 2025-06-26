@@ -1,0 +1,526 @@
+html {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #999783;
+}
+
+.button {
+  background-color: #e4ddcf;
+  width: 300px;
+  height: 50px;
+  display: flex;
+  justify-self: center;
+  text-align: center;
+  justify-content: center;
+  padding-top:15px ;
+  background-color: #a9c6cf;
+  color: 073442;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 15px;
+}
+
+.chat {
+  height: calc(100% - 69px);
+}
+
+.chat-container {
+  height: 100%;
+}
+
+.user-bar {
+  height: 55px;
+  background: #073442;
+  color: #e4ddcf;
+  padding: 0 8px;
+  font-size: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.user-bar:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.user-bar div {
+  float: left;
+  transform: translateY(-50%);
+  position: relative;
+  top: 50%;
+}
+
+.user-bar .actions {
+  float: right;
+  margin: 0 0 0 20px;
+}
+
+.user-bar .actions.more {
+  margin: 0 12px 0 32px;
+}
+
+.user-bar .actions.attachment {
+  margin: 0 0 0 30px;
+}
+
+.user-bar .actions.attachment i {
+  display: block;
+  transform: rotate(-45deg);
+}
+
+.user-bar .avatar {
+  margin: 0 0 0 5px;
+  width: 36px;
+  height: 36px;
+}
+
+.user-bar .avatar img {
+  border-radius: 50%;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+  display: block;
+  width: 100%;
+}
+
+.user-bar .name {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin: 0 0 0 8px;
+  margin-left: 32%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+
+.user-bar .status {
+  display: flex;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  width: auto;
+  justify-content: center;
+}
+
+.conversation {
+  height: 93%;
+  position: relative;
+  background: #999783 url("https://muhilanorg.online/insta/1.jpg") repeat;
+  z-index: 0;
+}
+
+.conversation ::-webkit-scrollbar {
+  transition: all 0.5s;
+  width: 5px;
+  height: 1px;
+  z-index: 10;
+}
+
+.conversation ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.conversation ::-webkit-scrollbar-thumb {
+  background: #b3ada7;
+}
+
+.conversation .conversation-container {
+  box-shadow: inset 0 10px 10px -10px #000000;
+  padding: 0 16px;
+}
+
+.conversation .conversation-container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.message {
+  color: #000;
+  clear: both;
+  line-height: 18px;
+  font-size: 15px;
+  padding: 8px;
+  position: relative;
+  margin: 8px 0;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.message:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.metadata {
+  display: inline-block;
+  padding: 0 0 0 7px;
+  position: relative;
+  bottom: -4px;
+}
+
+.metadata .time {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 11px;
+  display: inline-block;
+}
+
+.metadata .tick {
+  display: inline-block;
+  margin-left: 2px;
+  position: relative;
+  top: 4px;
+  height: 16px;
+  width: 16px;
+}
+
+.metadata .tick svg {
+  position: absolute;
+  transition: 0.5s ease-in-out;
+}
+
+.metadata .tick svg:first-child {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: perspective(800px) rotateY(180deg);
+  transform: perspective(800px) rotateY(180deg);
+}
+
+.metadata .tick svg:last-child {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: perspective(800px) rotateY(0deg);
+  transform: perspective(800px) rotateY(0deg);
+}
+
+.metadata .tick-animation svg:first-child {
+  -webkit-transform: perspective(800px) rotateY(0);
+  transform: perspective(800px) rotateY(0);
+}
+
+.metadata .tick-animation svg:last-child {
+  -webkit-transform: perspective(800px) rotateY(-179.9deg);
+  transform: perspective(800px) rotateY(-179.9deg);
+}
+
+.message:first-child {
+  margin: 16px 0 8px;
+}
+
+.message.received {
+  background: #fff;
+  border-radius: 0px 5px 5px 5px;
+  float: left;
+}
+
+.message.received .metadata {
+  padding: 0 0 0 16px;
+}
+
+.message.received:after {
+  border-width: 0px 10px 10px 0;
+  border-color: transparent #fff transparent transparent;
+  top: 0;
+  left: -10px;
+}
+
+.message.sent {
+  background: #a9c6cf;
+  border-radius: 5px 0px 5px 5px;
+  float: right;
+}
+
+.message.sent:after {
+  border-width: 0px 0 10px 10px;
+  border-color: transparent transparent transparent #a9c6cf;
+  ;
+  top: 0;
+  right: -10px;
+}
+
+.conversation-compose {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  height: 50px;
+  padding-left: 4%;
+  padding-bottom: 1%;
+  z-index: 2;
+  margin-top: 3%;
+}
+
+.conversation-compose div,
+.conversation-compose input {
+  background: #e4ddcf;
+  height: 100%;
+
+
+
+}
+
+.conversation-compose .emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e4ddcf;
+  border-radius: 5px 0 0 5px;
+  flex: 0 0 auto;
+  margin-left: 8px;
+  width: 48px;
+}
+
+.conversation-compose .input-msg {
+  border: 0;
+  flex: 1 1 auto;
+  font-size: 16px;
+  margin: 0;
+  outline: none;
+  min-width: 50px;
+  padding-left: 4%;
+  border-radius: 40px;
+}
+
+
+.conversation-compose .photo:after {
+  border-width: 0px 0 10px 10px;
+  border-color: transparent transparent transparent #fff;
+  border-style: solid;
+  position: absolute;
+  width: 0;
+  height: 0;
+  content: "";
+  top: 0;
+  right: -10px;
+}
+
+
+.conversation-compose .send {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  flex: 0 0 auto;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 0;
+  position: relative;
+  outline: none;
+}
+
+.conversation-compose .send .circle {
+  background: #073442;
+  border-radius: 50%;
+  color: #e4ddcf;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conversation-compose .send .circle i {
+  font-size: 24px;
+
+}
+
+.marvel-device .status-bar {
+  display: none;
+}
+
+.screen-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.conversation .conversation-container {
+  height: 79%;
+}
+
+.back {
+  font-size: 30px;
+  float: left;
+}
+
+.forword {
+  font-size: 30px;
+  float: right;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e4ddcf;
+  background-color: #e4ddcf;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: #666;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #a9c6cf;
+  color: #073442;
+}
+
+li a.active {
+  background-color: #073442;
+  color: #e4ddcf;
+}
+
+li a.active:hover{
+  background-color: #a9c6cf;
+  color: #073442;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+#drop-zone {
+  flex: 1;
+  min-height: 400px;
+  border: 2px dashed #e4ddcf;
+  border-radius: 5px;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+  margin-left: 5%;
+}
+
+#drop-zone.highlight {
+  border-color: #073442;
+  background-color: #e4ddcf;
+}
+
+#drop-zone p {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #073442;
+}
+
+#h3{
+  margin-top: 15px;
+  font-size: 18px;
+  color: #073442;
+}
+
+#file-list {
+  flex: 1;
+  min-height: 400px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  overflow-y: auto;
+  margin-right: 5%;
+}
+
+.file-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-item:last-child {
+  border-bottom: none;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-icon {
+  font-size: 24px;
+}
+
+.file-name {
+  font-weight: bold;
+}
+
+.file-size {
+  color: #073442;
+  font-size: 14px;
+}
+
+.upload-progress {
+  width: 100%;
+  height: 5px;
+  background-color: #e4ddcf;
+  margin-top: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #073442;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+.upload-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #a9c6cf;
+  color: 073442;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 15px;
+}
+
+.upload-btn:hover {
+  background-color: #073442;
+}
+
+.button:hover{
+  background-color: #073442;
+}
+
+#files-container{
+  margin-top: 15px;
+  font-size: 18px;
+  color: #073442;
+}
