@@ -1,3 +1,6 @@
+
+let idLoggeado = -1;
+
 $(function () {
     // Función para formatear la hora
     function getCurrentTime() {
@@ -53,8 +56,6 @@ $(function () {
         // Scroll al final
         $(".conversation-container").scrollTop($(".conversation-container")[0].scrollHeight);
 
-        // Mostrar "escribiendo..."
-        $(".status").html("escribiendo...");
 
         // Obtener respuesta de la IA
         const aiResponse = await sendMessageToAI(userMessage);
@@ -64,7 +65,6 @@ $(function () {
         $("#ap").append(`
             <div class='message received'>${aiResponse}<span class='metadata'><span class='time'>${aiTime}</span></span></div>
         `);
-        $(".status").html("online");
 
         // Scroll al final nuevamente
         $(".conversation-container").scrollTop($(".conversation-container")[0].scrollHeight);
@@ -243,3 +243,70 @@ function uploadFiles() {
 
 // Inicializar lista vacía
 updateFileList();
+
+
+// 6)
+function checkLogged(email, password) {
+
+    for (let i = 0; i < users.length; i++) {
+        if ((users[i].email == email) && (users[i].password == password)) {
+            return users[i].id;
+        } else if ((users[i].email == email) && (users[i].password != password)) {
+            return 0;
+        }
+    }
+
+    return -1;
+
+}
+
+//7)
+function ingresar() {
+    idLoggeado = checkLogged(ui.getEmail(), ui.getPassword());
+    if (idLoggeado >= 1) {
+        ui.showModal("Éxito", "Has ingresado correctamente");
+        window.location.href = "index.html";
+    }
+    else {
+        ui.showModal("Error", "Usuario y/o contraseña incorrecta. También puede ser que la cuenta no exista, en ese caso, regístrate");
+    }
+}
+
+//8)
+function registrar(usuario, email, contraseña) {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].email == email) {
+            return -1;
+        }
+    }
+
+    users.push(new User(usuario, email, contraseña))
+    return users.length
+
+}
+
+//9)
+function registrarse() {
+    if (registrar(ui.getUser(), ui.getEmail(), ui.getPassword()) > 0) {
+        ingresar();
+    } else {
+        ui.showModal("ha ocurrido un error :< ;<")
+    }
+}
+
+
+
+// 12)
+function cerrarSesion() {
+    const confirmacion = confirm("¿Realmente deseas cerrar sesión?");
+
+    if (confirmacion) {
+        console.log("Cerrando sesión...");
+        idLoggeado = 0;
+        ui.clearLoginInputs();
+        ui.changeScreen();
+
+    } else {
+        console.log("Cancelado por el usuario.");
+    }
+}

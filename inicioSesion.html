@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Chatbox Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.1.2/css/material-design-iconic-font.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agrandir:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    
+    <div class="inicioSesion-container">
+        <div id="call" class="user-bar">
+            <div class="name">
+                <p>INSERTAR GRAN NOMBRE DE CHAT IA PARA ESTUDIANTES</p>
+                <span class="status"></span>
+            </div>
+        </div>
+
+        <div class="loginForm" id="loginForm">
+            <div class="inicioSesion">
+                <legend>¡Bienvenido! Inicie sesión</legend>
+                <div class="form-floating mb-3">
+                    <input type="mail" class="form-control" id="email" placeholder="nombre@example.com">
+                    <label for="email">Correo electrónico</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="password" placeholder="********">
+                    <label for="password">Contraseña</label>
+                </div>
+                <div class="div-button">
+                    <button onclick="ingresar()" title="ingresar">ingresar</button>
+                </div>
+            </div>
+            <div class="registro">
+                <legend>O si desea registrarse, además indíquenos su nombre.</legend>
+                <div class="form-registro">
+                    <input type="text" class="form-control" id="username" placeholder="Pepe">
+                    <label for="username">Nombre de usuario</label>
+                </div>
+                <div class="div-button">
+                    <button onclick="registrarse()" title="Registrarse">Registrarse</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+
+        <script src="dom.js"></script>
+        <script src="clases/user.js"></script> <!-- This needs to come before main.js -->
+        <script src="main.js"></script>
+</body>
+
+</html>
