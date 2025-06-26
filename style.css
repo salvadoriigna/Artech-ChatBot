@@ -12,6 +12,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background:#999783;
 }
 
 .chat {
@@ -24,7 +25,7 @@ body {
 
 .user-bar {
   height: 55px;
-  background: #87a09d;
+  background: #073442;
   color: #fff;
   padding: 0 8px;
   font-size: 24px;
@@ -102,7 +103,7 @@ body {
 .conversation {
   height: calc(100% - 12px);
   position: relative;
-  background: #95c0a0 url("https://muhilanorg.online/insta/1.jpg") repeat;
+  background: #999783 url("https://muhilanorg.online/insta/1.jpg") repeat;
   z-index: 0;
 }
 
@@ -226,14 +227,14 @@ body {
 }
 
 .message.sent {
-  background: #e1ffc7;
+  background: #a9c6cf;
   border-radius: 5px 0px 5px 5px;
   float: right;
 }
 
 .message.sent:after {
   border-width: 0px 0 10px 10px;
-  border-color: transparent transparent transparent #e1ffc7;
+  border-color: transparent transparent transparent #a9c6cf;;
   top: 0;
   right: -10px;
 }
@@ -246,13 +247,15 @@ body {
   height: 50px;
   width: 96%;
   padding-left: 4%;
+  padding-bottom: 1%;
   z-index: 2;
 }
 
 .conversation-compose div,
 .conversation-compose input {
-  background: #fff;
+  background: #e4ddcf;
   height: 100%;
+
 
 
 }
@@ -276,15 +279,9 @@ body {
   outline: none;
   min-width: 50px;
   padding-left: 4%;
+  border-radius: 40px;
 }
 
-.conversation-compose .photo {
-  flex: 0 0 auto;
-  border-radius: 0 0 5px 0;
-  text-align: center;
-  position: relative;
-  width: 48px;
-}
 
 .conversation-compose .photo:after {
   border-width: 0px 0 10px 10px;
@@ -312,7 +309,7 @@ body {
 }
 
 .conversation-compose .send .circle {
-  background: #78928f;
+  background: #073442;
   border-radius: 50%;
   color: #fff;
   position: relative;
@@ -358,31 +355,4 @@ body {
   float: right;
 }
 
-.dropdown {
-  position: fixed;
-  margin-top: 1.5%;
-  margin-left: 1%;
-  display: inline-block;
-  z-index: 1000;
-  background-color: #87a09d;
-  color: #d8ebe9;
-  white-space: nowrap;
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #87a09d;
-  color: #fff;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px 16px;
-  z-index: 1001;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
