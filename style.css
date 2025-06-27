@@ -532,7 +532,6 @@ li a.active:hover{
 
 
 
-
 .inicioSesion-container {
     background-color: #999783;
     font-family: "Agrandir", sans-serif;
@@ -587,7 +586,7 @@ li a.active:hover{
 
 .div-button {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-top: 0.5rem;
 }
 
@@ -604,4 +603,288 @@ li a.active:hover{
 
 .div-button button:hover {
     background-color: #0a546b;
+}
+
+/* Estilos específicos para notas.html */
+
+#notepad {
+  max-width: 1200px;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #e4ddcf;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#loggedUsername {
+  color: #073442;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* Sección de ingreso de notas */
+#ingresoDatos {
+  background-color: #e4ddcf;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+#ingresoDatos legend {
+  font-size: 1.5rem;
+  color: #073442;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: block;
+  text-align: center;
+}
+
+.input_titulo,
+.input_contenido,
+.input_categoria {
+  margin-bottom: 20px;
+}
+
+.input_titulo label,
+.input_contenido label,
+.input_categoria label {
+  display: block;
+  margin-bottom: 8px;
+  color: #073442;
+  font-weight: 600;
+}
+
+.input_titulo input,
+.input_categoria input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e4ddcf;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.input_contenido textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 15px;
+  border: 2px solid #e4ddcf;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.agregarNota {
+  background-color: #073442;
+  color: #e4ddcf;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.agregarNota:hover {
+  background-color: #0a546b;
+}
+
+/* Sección de búsquedas */
+.budcarPorSelect {
+  background-color: #f5f5f5;
+  padding: 30px; 
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.budcarPorSelect legend {
+   font-size: 1.5rem;
+  color: #073442;
+  font-weight: 700;
+  margin-bottom: 25px; /* Más espacio debajo del título */
+  display: block;
+  text-align: center;
+}
+
+.buscarPorContenido,
+.selectUsers,
+.ingresarusuario {
+  margin-bottom: 20px;
+}
+
+.buscarPorContenido label,
+.selectUsers label,
+.ingresarusuario label {
+  display: block;
+  margin-bottom: 8px;
+  color: #073442;
+  font-weight: 600;
+}
+
+.buscarPorContenido input,
+.selectUsers select,
+.ingresarusuario input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e4ddcf;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.botonSelect button,
+.eliminarUsuario button,
+.botonAgregarUsuario {
+  background-color: #073442;
+  color: #e4ddcf;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.botonSelect button:hover,
+.eliminarUsuario button:hover,
+.botonAgregarUsuario:hover {
+  background-color: #0a546b;
+}
+
+/* Sección de visualización de notas */
+#allNotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background-color: #073442;
+  color: #e4ddcf;
+  padding: 15px 20px;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.card-body {
+  padding: 20px;
+  background-color: #e4ddcf;
+}
+
+.card-text {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.badge {
+  background-color: #a9c6cf;
+  color: #073442;
+  font-size: 0.9rem;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+/* Botón de cerrar sesión */
+.btn-outline-danger {
+  border: 2px solid #dc3545;
+  color: #dc3545;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s;
+  display: block;
+  margin: 30px auto 0;
+  width: 200px;
+  text-align: center;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #e4ddcf;
+}
+
+
+/* Contenedor del select */
+.mb-3 {
+  margin-bottom: 25px !important; /* Más espacio debajo del select */
+}
+
+/* Contenedor de botones */
+.botonSelect {
+  display: flex;
+  gap: 15px; /* Espacio entre botones */
+  margin-bottom: 25px; /* Espacio debajo de los botones */
+  flex-wrap: wrap; /* Para responsive */
+}
+
+/* Botones individuales */
+.botonSelect button {
+  flex: 1; /* Hace que los botones ocupen espacio igual */
+  min-width: 200px; /* Ancho mínimo para evitar que se compriman mucho */
+  padding: 12px 0; /* Más altura */
+}
+
+/* Sección de buscar por contenido */
+.buscarPorContenido {
+  margin-bottom: 25px; /* Más espacio debajo */
+}
+
+/* Input de búsqueda */
+#searchByContent {
+  margin-top: 10px; /* Espacio adicional sobre el input */
+  padding: 12px 15px; /* Más relleno interno */
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+  .botonSelect {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .botonSelect button {
+    width: 100%;
+  }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  #allNotes {
+    grid-template-columns: 1fr;
+  }
+  
+  #notepad {
+    padding: 15px;
+  }
+  
+  #loggedUsername {
+    font-size: 1.5rem;
+  }
 }

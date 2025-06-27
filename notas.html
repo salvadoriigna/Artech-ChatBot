@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Chatbox Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.1.2/css/material-design-iconic-font.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agrandir:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <ul class="nav">
+        <li><a class="active" href="index.html">chat</a></li>
+        <li><a href="subirArchivos.html">Ingresar nuevos archivos</a></li>
+        <li><a href="notas.html">Mis notas</a></li>
+    </ul>
+
+
+    <div id="call" class="user-bar">
+        <div class="name">
+            <p>INSERTAR GRAN NOMBRE DE CHAT IA PARA ESTUDIANTES</p>
+        </div>
+    </div>
+    <div id="notepad">
+        <h2 id="loggedUsername">¡Bienvenido COMPLETAR CON NOMBRE DE USUARIO!</h2>
+        <div>
+            <div id="ingresoDatos">
+                <legend>Ingreso de nueva nota</legend>
+                <div class="input_titulo">
+                    <label for="title" class="form-label">Título de la nota</label>
+                    <input class="form-control" type="text" id="title">
+                </div>
+                <div class="input_contenido">
+                    <label for="content" class="form-label">Contenido</label>
+                    <textarea class="form-control" id="content"></textarea>
+                </div>
+                <div class="input_categoria">
+                    <label for="category" class="form-label">Categoría</label>
+                    <input type="text" class="form-control" id="category">
+                </div>
+                <button class="agregarNota" onclick="agregarNota()" title="Agregar Nota">
+                    Agregar nota
+                </button>
+            </div>
+            <div class="budcarPorSelect">
+                <legend>Búsquedas</legend>
+                <div class="mb-3">
+                    <label for="selectNote" class="form-label">Seleccionar nota</label>
+                    <select id="selectNote" class="form-select">
+                        <option selected disabled>
+                            Aquí aparecerán las notas...
+                        </option>
+                    </select>
+                </div>
+                <div class="botonSelect">
+                    <button onclick="ver_nota()" title="Mostrar Nota en consola">Mostrar nota en consola</button>
+                    <button onclick="verHistorialNota()" title="Ver historial de la nota">Ver historial de la
+                        nota</button>
+
+                </div>
+                <div class="buscarPorContenido">
+                    <label for="searchByContent" class="form-label">Buscar por contenido</label>
+                    <input class="form-control" type="text" id="searchByContent" onkeyup="buscarPorContenido()">
+                </div>
+                <div class="selectUsers">
+                    <label for="selectUser" class="form-label">Seleccionar usuario</label>
+                    <select id="selectUser" class="form-select">
+                        <option selected disabled>
+                            Aquí aparecerán los usuarios...
+                        </option>
+                    </select>
+                </div>
+                <div class="eliminarUsuario">
+                    <button onclick="eliminarUsuario()" title="Eliminar usuario">Eliminar Usuario</button>
+                </div>
+                <div class="ingresarusuario">
+                    <label for="IngresarUsuario" class="form-label">Ingresar Usuario</label>
+                    <input class="form-control" type="text" id="IngresarUsuario">
+                </div>
+                <div class="mb-3">
+                    <button class="botonAgregarUsuario" onclick="agregarUsuario()" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Agregar usuario">Agregar Usuario</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="shadow p-3 mb-4 bg-white rounded">
+            <legend>Notas</legend>
+            <div id="allNotes">
+            </div>
+        </div>
+        <button type="button" onclick="cerrarSesion()" class="btn btn-outline-danger btn-lg mb-5">Cerrar sesión</button>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+    <script src="dom.js"></script>
+    <script src="clases/modificacion.js"></script>
+    <script src="clases/nota.js"></script>
+    <script src="clases/user.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
