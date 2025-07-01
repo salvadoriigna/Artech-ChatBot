@@ -4,6 +4,7 @@ import os
 import re
 from werkzeug.utils import secure_filename
 from PyPDF2 import PdfReader
+import glob
 
 app = Flask(__name__)
 
@@ -12,6 +13,14 @@ API_KEY = "AIzaSyDgqC5W--Mx4CUpieHj5r2hb3vwGn9V9us"
 GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={API_KEY}"
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+def get_latest_uploaded_file():
+    """Obtiene el archivo más reciente en la carpeta uploads"""
+    list_of_files = glob.glob(os.path.join(UPLOAD_FOLDER, '*'))
+    if not list_of_files:
+        return None
+    latest_file = max(list_of_files, key=os.path.getctime)
+    return latest_file
 
 def download_file(url, save_path=None):
     """Descarga un archivo desde una URL con reintentos"""
@@ -86,18 +95,17 @@ def split_text(text, max_words=200):
 
 def initialize_pdf_processing():
     """Inicializa el procesamiento del PDF al iniciar la app"""
-    pdf_url = "https://services.google.com/fh/files/misc/ai_adoption_framework_whitepaper.pdf"
-    pdf_path = os.path.join(UPLOAD_FOLDER, "ai_adoption_framework_whitepaper.pdf")
+    # Busca el archivo más reciente en la carpeta uploads
+    pdf_path = get_latest_uploaded_file()
     
     try:
-        if not os.path.exists(pdf_path):
-            print("Descargando PDF...")
-            download_file(pdf_url, pdf_path)
-        
-        if os.path.exists(pdf_path):
+        if pdf_path and os.path.exists(pdf_path):
+            print(f"Procesando archivo: {pdf_path}")
             pdf_text = load_pdf(pdf_path)
             chunks = split_text(pdf_text)
             return pdf_text, chunks
+        else:
+            print("No se encontró ningún archivo en la carpeta uploads")
     except Exception as e:
         print(f"Error inicializando PDF: {str(e)}")
     
@@ -119,8 +127,8 @@ def generate_text():
         chunks = chunked_text if chunked_text else []
         if not chunks:
             try:
-                pdf_path = os.path.join(UPLOAD_FOLDER, "ai_adoption_framework_whitepaper.pdf")
-                if os.path.exists(pdf_path):
+                pdf_path = get_latest_uploaded_file()
+                if pdf_path and os.path.exists(pdf_path):
                     current_pdf_text = load_pdf(pdf_path)
                     chunks = split_text(current_pdf_text)
             except Exception as e:
@@ -160,7 +168,7 @@ if __name__ == '__main__':
     
     if chunked_text:
         print("\nEjemplo de chunks:")
-        for i, chunk in enumerate(chunked_text[:len(chunked_text)]):  # Mostrar primeros 3 chunks
+        for i, chunk in enumerate(chunked_text[:len(chunked_text)]): 
             print(f"\nChunk {i+1} ({len(chunk.split())} palabras):")
             print(chunk)
     
