@@ -30,7 +30,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  margin: 15px;
+  margin: 30px;
 }
 
 .chat {
@@ -523,4 +523,9 @@ li a.active:hover{
   margin-top: 15px;
   font-size: 18px;
   color: #073442;
+}
+
+#bigContainer {
+  align-content: center;
+  margin-top: 2%;
 }

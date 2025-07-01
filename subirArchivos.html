@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>cargar archivos</title>
+  <title>Cargar Archivos</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.1.2/css/material-design-iconic-font.min.css">
@@ -13,29 +13,30 @@
 
 <body>
     <ul class="nav">
-        <li><a class="active" href="index (1).html">chat</a></li>
+        <li><a class="active" href="index (1).html">Chat</a></li>
         <li><a href="subirArchivos.html">Ingresar nuevos archivos</a></li>
     </ul>
-    
-    <div class="container">
-        <div id="drop-zone">
-            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#073442" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="17 8 12 3 7 8"></polyline>
-                <line x1="12" y1="3" x2="12" y2="15"></line>
-            </svg>
-            <p>Arrastra y suelta archivos aquí</p>
-            <p>o</p>
-            <input type="file" id="file-input" multiple style="display: none;">
-            <button class="upload-btn" onclick="document.getElementById('file-input').click()">Seleccionar archivos</button>
+    <div id="bigContainer">
+        <div class="container">
+            <div id="drop-zone">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#073442" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <p>Arrastra y suelta archivos aquí</p>
+                <p>o</p>
+                <input type="file" id="file-input" multiple style="display: none;">
+                <button class="upload-btn" onclick="document.getElementById('file-input').click()">Seleccionar archivos</button>
+            </div>
+            
+            <div id="file-list">
+                <h3 id="h3">Archivos seleccionados</h3>
+                <div id="files-container"></div>
+            </div>
         </div>
-        
-        <div id="file-list">
-            <h3 id="h3">Archivos seleccionados</h3>
-            <div id="files-container"></div>
-        </div>
+        <button class="button" onclick="uploadFiles()"> Enviar a la IA</button>
     </div>
-    <button class="button"> Enviar a la IA</button>
     <script src="main.js"></script>
 
 </body>
