@@ -77,15 +77,15 @@ $(function () {
             return false;
         }
     });
+    if (window.location.pathname.includes('subirArchivos.html')) {
+        let selectedFiles = [];
+        
+        // Elementos del DOM
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const filesContainer = document.getElementById('files-container');
 
-    // File upload functionality
-    const dropZone = $('#drop-zone')[0];
-    const fileInput = $('#file-input')[0];
-    const filesContainer = $('#files-container')[0];
-    let files = [];
-
-    if (dropZone && fileInput && filesContainer) {
-        // Manejar eventos de arrastrar y soltar
+        // Eventos para arrastrar y soltar
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, preventDefaults, false);
         });
@@ -116,62 +116,49 @@ $(function () {
 
         function handleDrop(e) {
             const dt = e.dataTransfer;
-            handleFiles(dt.files);
+            const files = dt.files;
+            handleFiles(files);
         }
 
-        // Manejar archivos seleccionados
-        fileInput.addEventListener('change', function () {
-            handleFiles(this.files);
+        // Manejar selección de archivos
+        fileInput.addEventListener('change', function(e) {
+            handleFiles(e.target.files);
         });
 
         // Procesar archivos
         function handleFiles(newFiles) {
-            files = [...files, ...newFiles];
+            selectedFiles = [...selectedFiles, ...newFiles];
             updateFileList();
         }
 
-        // Actualizar la lista de archivos
+        // Actualizar lista de archivos
         function updateFileList() {
             filesContainer.innerHTML = '';
-
-            if (files.length === 0) {
-                filesContainer.innerHTML = '<p>No hay archivos seleccionados</p>';
-                return;
-            }
-
-            files.forEach((file, index) => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-
-                // Obtener icono según el tipo de archivo
-                const fileIcon = getFileIcon(file);
-
-                fileItem.innerHTML = `
+            selectedFiles.forEach((file, index) => {
+                const fileElement = document.createElement('div');
+                fileElement.className = 'file-item';
+                fileElement.innerHTML = `
                     <div class="file-info">
-                        <div class="file-icon">${fileIcon}</div>
+                        <div class="file-icon">${getFileIcon(file)}</div>
                         <div>
                             <div class="file-name">${file.name}</div>
-                            <div class="file-size">${formatBytes(file.size)}</div>
-                            <div class="upload-progress">
-                                <div class="progress-bar" id="progress-${index}"></div>
-                            </div>
+                            <div class="file-size">${formatFileSize(file.size)}</div>
                         </div>
                     </div>
                     <button onclick="removeFile(${index})">×</button>
                 `;
-
-                filesContainer.appendChild(fileItem);
+                filesContainer.appendChild(fileElement);
             });
         }
 
-        // Función para eliminar un archivo de la lista
+        // Función para eliminar archivos
         window.removeFile = function(index) {
-            files.splice(index, 1);
+            selectedFiles.splice(index, 1);
             updateFileList();
         };
 
-        // Función para formatear el tamaño del archivo
-        function formatBytes(bytes) {
+        // Formatear tamaño de archivo
+        function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
             const sizes = ['Bytes', 'KB', 'MB', 'GB'];
@@ -179,85 +166,76 @@ $(function () {
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
-        // Función para obtener icono según el tipo de archivo
+        // Obtener icono según tipo de archivo
         function getFileIcon(file) {
-            const type = file.type.split('/')[0];
             const extension = file.name.split('.').pop().toLowerCase();
-
-            const icons = {
-                image: '🖼️',
-                audio: '🎵',
-                video: '🎬',
-                text: '📄',
-                application: '📁'
-            };
-
-            // Iconos específicos para extensiones conocidas
             const extensionIcons = {
-                pdf: '📕',
-                doc: '📘',
-                docx: '📘',
-                xls: '📊',
-                xlsx: '📊',
-                ppt: '📑',
-                pptx: '📑',
-                zip: '🗜️',
-                rar: '🗜️',
-                exe: '⚙️',
-                mp3: '🎵',
-                wav: '🎵',
-                mp4: '🎬',
-                avi: '🎬',
-                mov: '🎬',
-                jpg: '🖼️',
-                jpeg: '🖼️',
-                png: '🖼️',
-                gif: '🖼️',
-                txt: '📝',
-                csv: '📊',
-                js: '📜',
-                html: '🌐',
-                css: '🎨'
+                pdf: '📕', doc: '📘', docx: '📘', xls: '📊', xlsx: '📊',
+                ppt: '📑', pptx: '📑', zip: '🗜️', rar: '🗜️', 
+                jpg: '🖼️', jpeg: '🖼️', png: '🖼️', gif: '🖼️',
+                mp3: '🎵', wav: '🎵', mp4: '🎬', avi: '🎬',
+                txt: '📝', csv: '📊', js: '📜', html: '🌐', css: '🎨'
             };
-
-            return extensionIcons[extension] || icons[type] || '📁';
+            return extensionIcons[extension] || '📁';
         }
 
-        // Función para subir archivos
+        // Función para subir archivos CORREGIDA
         window.uploadFiles = async function() {
-            if (files.length === 0) {
-                alert("No hay archivos seleccionados");
+            if (selectedFiles.length === 0) {
+                alert('Por favor, selecciona al menos un archivo');
                 return;
             }
 
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const formData = new FormData();
-                formData.append('file', file);
+            try {
+                // Leer el contenido de cada archivo como texto
+                const fileContents = await Promise.all(
+                    selectedFiles.map(file => readFileAsText(file))
+                );
 
-                try {
-                    const response = await fetch('"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDgqC5W--Mx4CUpieHj5r2hb3vwGn9V9us', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const result = await response.json();
-                    console.log('Upload successful:', result);
-                    
-                    // Update progress bar
-                    const progressBar = document.getElementById(`progress-${i}`);
-                    if (progressBar) {
-                        progressBar.style.width = '100%';
-                        progressBar.style.backgroundColor = '#4CAF50';
-                    }
-                } catch (error) {
-                    console.error('Upload failed:', error);
-                    const progressBar = document.getElementById(`progress-${i}`);
-                    if (progressBar) {
-                        progressBar.style.backgroundColor = '#f44336';
-                    }
+                // Crear el mensaje combinando los nombres y contenidos de los archivos
+                const message = selectedFiles.map((file, index) => {
+                    return `Archivo: ${file.name}\nContenido:\n${fileContents[index]}`;
+                }).join('\n\n');
+
+                // Enviar el contenido como texto a Gemini
+                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDgqC5W--Mx4CUpieHj5r2hb3vwGn9V9us', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: message
+                            }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error al procesar archivos: ${response.status}`);
                 }
+
+                const result = await response.json();
+                const aiResponse = result.candidates[0].content.parts[0].text;
+                
+                alert('Archivos procesados con éxito!\nRespuesta de la IA:\n' + aiResponse);
+                selectedFiles = [];
+                updateFileList();
+            } catch (error) {
+                console.error('Error al procesar archivos:', error);
+                alert('Error al procesar archivos: ' + error.message);
             }
         };
+
+        // Función auxiliar para leer archivos como texto
+        function readFileAsText(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = event => resolve(event.target.result);
+                reader.onerror = error => reject(error);
+                reader.readAsText(file);
+            });
+        }
     }
 });

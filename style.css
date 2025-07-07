@@ -42,13 +42,15 @@ body {
 }
 
 .user-bar {
-  height: 55px;
+  height:auto;
   background: #073442;
   color: #e4ddcf;
   padding: 0 8px;
   font-size: 24px;
-  position: relative;
-  z-index: 1;
+  overflow: hidden;
+  width: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .user-bar:after {
@@ -59,7 +61,6 @@ body {
 
 .user-bar div {
   float: left;
-  transform: translateY(-50%);
   position: relative;
   top: 50%;
 }
@@ -99,12 +100,12 @@ body {
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  margin: 0 0 0 8px;
-  margin-left: 32%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
+  text-align: center;
+  margin: 0 0 8px;
 }
 
 
@@ -118,10 +119,9 @@ body {
 }
 
 .conversation {
-  height: 93%;
-  position: relative;
-  background: #999783 url("https://muhilanorg.online/insta/1.jpg") repeat;
-  z-index: 0;
+  height: 100%;
+  overflow-y: hidden;
+  background: #999783;
 }
 
 .conversation ::-webkit-scrollbar {
@@ -263,8 +263,6 @@ body {
   height: 50px;
   padding-left: 4%;
   padding-bottom: 1%;
-  z-index: 2;
-  margin-top: 3%;
 }
 
 .conversation-compose div,
@@ -289,13 +287,13 @@ body {
 
 .conversation-compose .input-msg {
   border: 0;
-  flex: 1 1 auto;
   font-size: 16px;
   margin: 0;
   outline: none;
   min-width: 50px;
   padding-left: 4%;
   border-radius: 40px;
+  width: 100%;
 }
 
 
@@ -354,7 +352,8 @@ body {
 }
 
 .conversation .conversation-container {
-  height: 79%;
+  height: 80%;
+  overflow: scroll;
 }
 
 .back {
@@ -375,6 +374,7 @@ ul {
   overflow: hidden;
   border: 1px solid #e4ddcf;
   background-color: #e4ddcf;
+  min-width: 292px;
 }
 
 li {
