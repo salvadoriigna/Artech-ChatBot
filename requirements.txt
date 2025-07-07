@@ -1,0 +1,12 @@
+Flask==3.1.0
+python-dotenv==1.0.1
+uvicorn==0.30.1
+pypdf==4.2.0
+langchain-google-genai==1.0.9
+langchain-chroma==0.1.4
+google-generativeai==0.7.2
+chromadb==0.4.15
+langchain-community==0.2.5
+langchain-core==0.2.43
+langchain==0.2.5
+werkzeug==3.1.0
