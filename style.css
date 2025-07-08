@@ -119,7 +119,7 @@ body {
 }
 
 .conversation {
-  height: 100%;
+  height: 87%;
   overflow-y: hidden;
   background: #999783;
 }
@@ -352,7 +352,7 @@ body {
 }
 
 .conversation .conversation-container {
-  height: 80%;
+  height: 89%;
   overflow: scroll;
 }
 
