@@ -16,30 +16,28 @@ $(function () {
     // Función para llamar al endpoint de IA
     async function sendMessageToAI(message) {
         try {
-            const response = await fetch("http://localhost:8000/ask", {
+            const response = await fetch("http://localhost:8000/ask?collection_name=archivo", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Accept": "application/json"
                 },
-                body: JSON.stringify({
-                    question: message,
-                    collection_name: "archivo" // Nombre de tu colección
-                }),
+                body: JSON.stringify({ question: message })
             });
 
             if (!response.ok) {
-                throw new Error(`Error ${response.status}: ${await response.text()}`);
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Error desconocido del servidor");
             }
 
-            const data = await response.json();
-            return data.answer;
+            return await response.json();
         } catch (error) {
-            console.error("Error:", error);
-            return "⚠️ Error al conectar con el servidor: " + error.message;
+            console.error("Error en sendMessageToAI:", error);
+            return { answer: `⚠️ Error: ${error.message}` };
         }
     }
 
-    // Manejar solo el clic del botón (#msend)
+    // Modifica el manejador del click para usar la nueva respuesta
     $("#msend").click(async function (e) {
         e.preventDefault();
         const userMessage = $("#val").val().trim();
@@ -48,27 +46,21 @@ $(function () {
         // Mostrar mensaje del usuario
         const userTime = getCurrentTime();
         $("#ap").append(`
-            <div class='message sent'>${userMessage}<span class='metadata'><span class='time'>${userTime}</span></span></div>
-        `);
+        <div class='message sent'>${userMessage}<span class='metadata'><span class='time'>${userTime}</span></span></div>
+    `);
         $("#val").val("");
-
-        // Scroll al final
         $(".conversation-container").scrollTop($(".conversation-container")[0].scrollHeight);
-
-        // Mostrar "escribiendo..."
         $(".status").html("escribiendo...");
 
-        // Obtener respuesta de la IA
-        const aiResponse = await sendMessageToAI(userMessage);
+        // Obtener respuesta
+        const { answer } = await sendMessageToAI(userMessage);
         const aiTime = getCurrentTime();
 
-        // Mostrar respuesta de la IA
+        // Mostrar respuesta
         $("#ap").append(`
-            <div class='message received'>${aiResponse}<span class='metadata'><span class='time'>${aiTime}</span></span></div>
-        `);
+        <div class='message received'>${answer}<span class='metadata'><span class='time'>${aiTime}</span></span></div>
+    `);
         $(".status").html("online");
-
-        // Scroll al final nuevamente
         $(".conversation-container").scrollTop($(".conversation-container")[0].scrollHeight);
     });
 

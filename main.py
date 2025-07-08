@@ -12,7 +12,7 @@ import chromadb
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Habilita CORS para todas las rutas
+CORS(app)
 
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -20,7 +20,6 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 if not GOOGLE_API_KEY:
     raise ValueError("La variable de entorno GOOGLE_API_KEY no está configurada.")
 
-app = Flask(__name__)
 
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY)
 embeddings_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
@@ -37,8 +36,8 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 prompt_template = PromptTemplate(
-    template="""Eres un asistente útil y amable que responde preguntas basadas únicamente en el contexto proporcionado.
-Si la respuesta no se encuentra en el contexto proporcionado, por favor, responde que no lo sabes. No intentes inventar una respuesta.
+    template=""" Eres un asistente virtual llamado Pablo. Eres útil y amable. Solo te presentas cuando te saludan. Respondes siempre en el contexto de Argenina.
+
 
 Contexto:
 {context}
