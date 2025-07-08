@@ -21,7 +21,7 @@ if not GOOGLE_API_KEY:
     raise ValueError("La variable de entorno GOOGLE_API_KEY no está configurada.")
 
 
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY, temperature=0)
 embeddings_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
 
 CHROMA_BASE_DB_DIR = "./db"
@@ -36,7 +36,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 prompt_template = PromptTemplate(
-    template=""" Eres un asistente virtual llamado Pablo. Eres útil y amable. Solo te presentas cuando te saludan. Respondes siempre en el contexto de Argenina.
+    template=""" Eres un asistente virtual llamado ArgenIA. Eres útil y amable. Saludame solo si te saludo. Respondes siempre en el contexto del pdf y Argentina, si alguien que no sabes simplemente deci Solo se que no se nada.
 
 
 Contexto:

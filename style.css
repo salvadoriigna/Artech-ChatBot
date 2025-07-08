@@ -15,6 +15,10 @@ body {
   background: #999783;
 }
 
+h1{
+  height: 16px;
+}
+
 .button {
   background-color: #e4ddcf;
   width: 300px;
@@ -111,7 +115,7 @@ body {
 
 .user-bar .status {
   display: flex;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 400;
   letter-spacing: 0;
   width: auto;
