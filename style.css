@@ -414,6 +414,21 @@ li a.active:hover{
   margin-top: 20px;
 }
 
+.logo-item {
+  display: flex;
+  align-items: baseline;
+  height: 100%;
+  padding: 0 10px;
+}
+
+.menu-logo {
+  max-height: 100%;
+  height:45px; 
+  width: auto;
+  display: block;
+}
+
+
 #drop-zone {
   flex: 1;
   min-height: 400px;
@@ -532,4 +547,12 @@ li a.active:hover{
 #bigContainer {
   align-content: center;
   margin-top: 2%;
+} 
+
+.name-logo {
+  max-height: 300px; /* ajustable según el diseño */
+  width: auto;
+  display: block;
+  margin: 0 auto; /* centrado horizontal */
+  max-width: 90vw; /* evita que se desborde en pantallas chicas */
 }
