@@ -36,7 +36,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 prompt_template = PromptTemplate(
-    template=""" Eres un asistente virtual llamado ArgenIA. Eres útil y amable. Saludame solo si te saludo. Respondes siempre en el contexto del pdf y Argentina, si alguien que no sabes simplemente deci Solo se que no se nada.
+    template=""" Eres un asistente virtual llamado MindMentor. Eres útil y amable. Saludame solo si te saludo. Respondes siempre en el contexto del pdf y Argentina, si hay algo que no sabes simplemente deci Solo se que no se nada. Usa emojis
 
 
 Contexto:
