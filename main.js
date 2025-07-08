@@ -16,24 +16,26 @@ $(function () {
     // Función para llamar al endpoint de IA
     async function sendMessageToAI(message) {
         try {
-            const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDgqC5W--Mx4CUpieHj5r2hb3vwGn9V9us", {
+            const response = await fetch("http://localhost:8000/ask", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: message
-                        }]
-                    }]
+                    question: message,
+                    collection_name: "archivo" // Nombre de tu colección
                 }),
             });
+
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${await response.text()}`);
+            }
+
             const data = await response.json();
-            return data.candidates[0].content.parts[0].text;
+            return data.answer;
         } catch (error) {
             console.error("Error:", error);
-            return "⚠️ Error al conectar con la IA.";
+            return "⚠️ Error al conectar con el servidor: " + error.message;
         }
     }
 
@@ -79,7 +81,7 @@ $(function () {
     });
     if (window.location.pathname.includes('subirArchivos.html')) {
         let selectedFiles = [];
-        
+
         // Elementos del DOM
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
@@ -121,7 +123,7 @@ $(function () {
         }
 
         // Manejar selección de archivos
-        fileInput.addEventListener('change', function(e) {
+        fileInput.addEventListener('change', function (e) {
             handleFiles(e.target.files);
         });
 
@@ -152,7 +154,7 @@ $(function () {
         }
 
         // Función para eliminar archivos
-        window.removeFile = function(index) {
+        window.removeFile = function (index) {
             selectedFiles.splice(index, 1);
             updateFileList();
         };
@@ -171,7 +173,7 @@ $(function () {
             const extension = file.name.split('.').pop().toLowerCase();
             const extensionIcons = {
                 pdf: '📕', doc: '📘', docx: '📘', xls: '📊', xlsx: '📊',
-                ppt: '📑', pptx: '📑', zip: '🗜️', rar: '🗜️', 
+                ppt: '📑', pptx: '📑', zip: '🗜️', rar: '🗜️',
                 jpg: '🖼️', jpeg: '🖼️', png: '🖼️', gif: '🖼️',
                 mp3: '🎵', wav: '🎵', mp4: '🎬', avi: '🎬',
                 txt: '📝', csv: '📊', js: '📜', html: '🌐', css: '🎨'
@@ -180,7 +182,7 @@ $(function () {
         }
 
         // Función para subir archivos CORREGIDA
-        window.uploadFiles = async function() {
+        window.uploadFiles = async function () {
             if (selectedFiles.length === 0) {
                 alert('Por favor, selecciona al menos un archivo');
                 return;
@@ -218,7 +220,7 @@ $(function () {
 
                 const result = await response.json();
                 const aiResponse = result.candidates[0].content.parts[0].text;
-                
+
                 alert('Archivos procesados con éxito!\nRespuesta de la IA:\n' + aiResponse);
                 selectedFiles = [];
                 updateFileList();

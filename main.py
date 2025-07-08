@@ -9,6 +9,10 @@ from langchain.prompts import PromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.retrieval import create_retrieval_chain
 import chromadb 
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # Habilita CORS para todas las rutas
 
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
