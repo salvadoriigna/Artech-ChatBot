@@ -1,3 +1,42 @@
+function formatMarkdownToHtml(text) {
+    // 1. Convertir **texto** a <strong>texto</strong> (esto ya lo tenías)
+    let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    // 2. Convertir líneas que empiezan con * a elementos de lista <li>
+    // Primero, dividir el texto en líneas
+    const lines = formattedText.split('\n'); // Asegúrate que tu IA te devuelve \n para cada línea
+    let inList = false;
+    let htmlLines = [];
+
+    lines.forEach(line => {
+        if (line.trim().startsWith('* ')) {
+            // Si la línea empieza con un asterisco y un espacio, es un ítem de lista
+            if (!inList) {
+                htmlLines.push('<ul>'); // Abre la lista si no estaba abierta
+                inList = true;
+            }
+            // Quita el asterisco y el espacio, y lo envuelve en <li>
+            htmlLines.push(`<li>${line.trim().substring(2)}</li>`);
+        } else {
+            // Si no es un ítem de lista
+            if (inList) {
+                htmlLines.push('</ul>'); // Cierra la lista si estaba abierta
+                inList = false;
+            }
+            // Añade la línea tal cual (o con un <br/> si quieres un salto de línea simple)
+            htmlLines.push(line);
+        }
+    });
+
+    // Si la lista termina sin cerrar el </ul>, lo hacemos aquí
+    if (inList) {
+        htmlLines.push('</ul>');
+    }
+
+    // Unir todas las líneas HTML
+    return htmlLines.join('\n'); // Opcional: usar <br/> para saltos de línea simples si no son parte de una lista
+}
+
 $(function () {
     // Función para formatear la hora
     function getCurrentTime() {
@@ -58,7 +97,7 @@ $(function () {
 
         // Mostrar respuesta
         $("#ap").append(`
-        <div class='message received'>${answer}<span class='metadata'><span class='time'>${aiTime}</span></span></div>
+        <div class='message received'>${formatMarkdownToHtml(answer)}<span class='metadata'><span class='time'>${aiTime}</span></span></div>
     `);
         $(".status").html("online");
         $(".conversation-container").scrollTop($(".conversation-container")[0].scrollHeight);
