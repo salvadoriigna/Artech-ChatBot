@@ -1,44 +1,34 @@
 function formatMarkdownToHtml(text) {
-    // 1. Convertir **texto** a <strong>texto</strong> (esto ya lo tenías)
     let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
-    // 2. Convertir líneas que empiezan con * a elementos de lista <li>
-    // Primero, dividir el texto en líneas
-    const lines = formattedText.split('\n'); // Asegúrate que tu IA te devuelve \n para cada línea
+    const lines = formattedText.split('\n'); 
     let inList = false;
     let htmlLines = [];
 
     lines.forEach(line => {
         if (line.trim().startsWith('* ')) {
-            // Si la línea empieza con un asterisco y un espacio, es un ítem de lista
             if (!inList) {
-                htmlLines.push('<ul>'); // Abre la lista si no estaba abierta
+                htmlLines.push('<ul>'); 
                 inList = true;
             }
-            // Quita el asterisco y el espacio, y lo envuelve en <li>
             htmlLines.push(`<li>${line.trim().substring(2)}</li>`);
         } else {
-            // Si no es un ítem de lista
             if (inList) {
-                htmlLines.push('</ul>'); // Cierra la lista si estaba abierta
+                htmlLines.push('</ul>'); 
                 inList = false;
             }
-            // Añade la línea tal cual (o con un <br/> si quieres un salto de línea simple)
             htmlLines.push(line);
         }
     });
 
-    // Si la lista termina sin cerrar el </ul>, lo hacemos aquí
     if (inList) {
         htmlLines.push('</ul>');
     }
 
-    // Unir todas las líneas HTML
-    return htmlLines.join('\n'); // Opcional: usar <br/> para saltos de línea simples si no son parte de una lista
+    return htmlLines.join('\n');
 }
 
 $(function () {
-    // Función para formatear la hora
     function getCurrentTime() {
         const d = new Date();
         const h = d.getHours().toString().padStart(2, "0");
@@ -46,13 +36,11 @@ $(function () {
         return h > 12 ? `${h - 12}:${t} pm` : `${h}:${t} am`;
     }
 
-    // Mensaje de bienvenida inicial
     const welcomeMessage = "¡Hola! ¿en qué te ayudo?";
     $("#ap").append(`
         <div class='message received'>${welcomeMessage}<span class='metadata'><span class='time'>${getCurrentTime()}</span></span></div>
     `);
 
-    // Función para llamar al endpoint de IA
     async function sendMessageToAI(message) {
         try {
             const response = await fetch("http://localhost:8000/ask?collection_name=archivo", {
@@ -76,13 +64,11 @@ $(function () {
         }
     }
 
-    // Modifica el manejador del click para usar la nueva respuesta
     $("#msend").click(async function (e) {
         e.preventDefault();
         const userMessage = $("#val").val().trim();
         if (!userMessage) return;
 
-        // Mostrar mensaje del usuario
         const userTime = getCurrentTime();
         $("#ap").append(`
         <div class='message sent'>${userMessage}<span class='metadata'><span class='time'>${userTime}</span></span></div>
@@ -91,11 +77,9 @@ $(function () {
         $(".conversation-container").scrollTop($(".conversation-container")[0].scrollHeight);
         $(".status").html("escribiendo...");
 
-        // Obtener respuesta
         const { answer } = await sendMessageToAI(userMessage);
         const aiTime = getCurrentTime();
 
-        // Mostrar respuesta
         $("#ap").append(`
         <div class='message received'>${formatMarkdownToHtml(answer)}<span class='metadata'><span class='time'>${aiTime}</span></span></div>
     `);
@@ -103,7 +87,6 @@ $(function () {
         $(".conversation-container").scrollTop($(".conversation-container")[0].scrollHeight);
     });
 
-    // Permitir enviar con la tecla "Enter"
     $("#val").keypress(function (e) {
         if (e.which === 13) {
             $("#msend").click();
@@ -113,12 +96,10 @@ $(function () {
     if (window.location.pathname.includes('subirArchivos.html')) {
         let selectedFiles = [];
 
-        // Elementos del DOM
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
         const filesContainer = document.getElementById('files-container');
 
-        // Eventos para arrastrar y soltar
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, preventDefaults, false);
         });
@@ -144,7 +125,6 @@ $(function () {
             dropZone.classList.remove('highlight');
         }
 
-        // Manejar archivos soltados
         dropZone.addEventListener('drop', handleDrop, false);
 
         function handleDrop(e) {
@@ -153,18 +133,15 @@ $(function () {
             handleFiles(files);
         }
 
-        // Manejar selección de archivos
         fileInput.addEventListener('change', function (e) {
             handleFiles(e.target.files);
         });
 
-        // Procesar archivos
         function handleFiles(newFiles) {
             selectedFiles = [...selectedFiles, ...newFiles];
             updateFileList();
         }
 
-        // Actualizar lista de archivos
         function updateFileList() {
             filesContainer.innerHTML = '';
             selectedFiles.forEach((file, index) => {
@@ -184,13 +161,11 @@ $(function () {
             });
         }
 
-        // Función para eliminar archivos
         window.removeFile = function (index) {
             selectedFiles.splice(index, 1);
             updateFileList();
         };
 
-        // Formatear tamaño de archivo
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
@@ -199,7 +174,6 @@ $(function () {
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
-        // Obtener icono según tipo de archivo
         function getFileIcon(file) {
             const extension = file.name.split('.').pop().toLowerCase();
             const extensionIcons = {
@@ -212,7 +186,6 @@ $(function () {
             return extensionIcons[extension] || '📁';
         }
 
-        // Función para subir archivos CORREGIDA
         window.uploadFiles = async function () {
             if (selectedFiles.length === 0) {
                 alert('Por favor, selecciona al menos un archivo');
@@ -220,17 +193,14 @@ $(function () {
             }
 
             try {
-                // Leer el contenido de cada archivo como texto
                 const fileContents = await Promise.all(
                     selectedFiles.map(file => readFileAsText(file))
                 );
 
-                // Crear el mensaje combinando los nombres y contenidos de los archivos
                 const message = selectedFiles.map((file, index) => {
                     return `Archivo: ${file.name}\nContenido:\n${fileContents[index]}`;
                 }).join('\n\n');
 
-                // Enviar el contenido como texto a Gemini
                 const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDgqC5W--Mx4CUpieHj5r2hb3vwGn9V9us', {
                     method: 'POST',
                     headers: {
@@ -261,7 +231,6 @@ $(function () {
             }
         };
 
-        // Función auxiliar para leer archivos como texto
         function readFileAsText(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
